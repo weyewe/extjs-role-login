@@ -1,0 +1,67 @@
+
+// Set valid ExtJS loading path (/vendor/assets/extjs4/src)
+// Ext.Loader.setPath('Ext', '/assets/extjs4/src');
+Ext.Loader.setConfig({enabled:true});
+
+// create a new instance of Application class
+// Ext.application({
+//   name: 'AM',
+// 
+//   appFolder: '/assets/app',
+// 
+//   controllers: [
+// 			'Authentication' 
+// 		],
+// 
+//   autoCreateViewport: true,
+// });
+
+Ext.application({
+	<% Dir[File.expand_path('../app/*/', __FILE__)].each do |subdir| %>
+	  <%= File.basename(subdir) %>s: <%=
+	    # omit all file extensions (js, js.erb, etc.) from the file name
+	    Dir[subdir + '/*.js*'].map {|f| File.basename(f)[/^[^.]+/] }.to_json
+	  %>,
+	<% end %>
+
+
+// ... the rest of your ExtJS 4 application definition goes here ...
+// the global namespace
+     name: 'AM',
+
+
+     appFolder: '/assets/app',
+
+
+     // strange, when we don't have the controller, it is an error.
+     controllers: [
+               'Authentication'
+          ],
+
+
+     autoCreateViewport: true,
+});
+
+
+
+
+
+
+Ext.onReady(function(){
+	Ext.Ajax.on('beforerequest', function(conn, options) {
+	    var content, metatag;
+	    metatag = Ext.select('meta[name="csrf-token"]');
+	    if (metatag.first() != null) {
+	      content = metatag.first().dom.content;
+	      options.headers || (options.headers = {});
+	      return options.headers["X-CSRF-Token"] = content;
+	    }
+	  }, this);
+	
+	
+	var currentUser = localStorage.getItem("currentUser");
+	console.log("The currentUser: " + currentUser );
+	
+	var newCurrentUser = +localStorage.getItem("newCurrentUser");
+	console.log("The newCurrentUser: " + newCurrentUser );
+});
