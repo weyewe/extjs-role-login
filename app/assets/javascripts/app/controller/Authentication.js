@@ -19,7 +19,7 @@ Ext.define("AM.controller.Authentication", {
 	
 	
 	onViewportLoaded: function(){
-		console.log("The viewport is loaded");
+		// console.log("The viewport is loaded");
 		var me = this;
 		var currentUserBase = localStorage.getItem('currentUser');
 		if( currentUserBase === null){
@@ -36,14 +36,6 @@ Ext.define("AM.controller.Authentication", {
 	init : function( application ) {
 		var me = this; 
 		
-		
-		
-		
-		// Ext.Viewport.on('loaded', function() {
-		//         var view = me.getMain().down('#article-' + id);
-		//         me.getMain().setActiveItem(view);
-		//     }, me);
-		
 		me.control({
 			"button#loginBtn" : {
 				click : this.onLoginClick
@@ -54,12 +46,25 @@ Ext.define("AM.controller.Authentication", {
 			},
 			'vp' : {
 				'render' : this.onViewportLoaded
+			},
+			
+			'button#coffeeBtn': {
+				click : this.onCoffeeClick
+			},
+			
+			'button#massageBtn': {
+				click: this.onMassageClick
 			}
 			
 		});
-		
-	 
-		
+	},
+	
+	onCoffeeClick : function(btn){
+		console.log("Coffee is coming!!");
+	},
+	
+	onMassageClick : function(btn){
+		console.log("Special massage is on its way");
 	},
 	
 	onLoginClick: function( button ){
@@ -88,7 +93,8 @@ Ext.define("AM.controller.Authentication", {
 		// localStorage.setItem('currentUser',  null );
 		 localStorage.removeItem('currentUser');
 		// this could go to the localStorage. much more awesome 
-		me.showLoginForm()
+		me.showLoginForm();
+		window.location.reload(); 
 	},
 	
 	authenticateUser : function( data , fieldset ){
@@ -110,21 +116,19 @@ Ext.define("AM.controller.Authentication", {
 						
 						
 						var responseText=  result.responseText; 
-						var data = Ext.decode(responseText );
-						console.log("data['auth_token']: " + data['auth_token'] ); 
-						console.log("data['email']: " + data['email'] ); 
+						var data = Ext.decode(responseText ); 
 						var currentUserObject = {
 							'auth_token' : data['auth_token'] ,
 							'email'				: data['email'],
 							'role'				: Ext.decode( data['role'] ) 
 						};
-						
-						console.log("The role:");
-						console.log( currentUserObject['role']);
-						
-						console.log("The typeof role: " + typeof currentUserObject['role']);
-						
-						
+						// 
+						// console.log("The role:");
+						// console.log( currentUserObject['role']);
+						// 
+						// console.log("The typeof role: " + typeof currentUserObject['role']);
+						// 
+						// 
 						
 						
 						// set localStorage 
@@ -140,30 +144,33 @@ Ext.define("AM.controller.Authentication", {
 	},
 	
 	showProtectedArea : function(){
-		console.log("The protected area  is shown");
-		console.log("Gonna show the protected area");
+		// console.log("The protected area  is shown");
+		// console.log("Gonna show the protected area");
 		var me = this; 
 		
-		console.log("The typeof currentUser['role']: " + typeof me.currentUser['role']);
-		console.log( "THe presence of janitor: " + me.currentUser['role']['janitor']);
-		
-		if( me.currentUser['role']['janitor']){
-			console.log("The janitor is present");
-		}else{
-			console.log("The janitor is not present");
-		}
-		
-		if( me.currentUser['role']['janitor']['make_coffee']){
-			console.log("he can make coffee");
-		}else{
-			console.log("The janitor can't make coffee");
-		}
-		
+		// console.log("The typeof currentUser['role']: " + typeof me.currentUser['role']);
+		// console.log( "THe presence of janitor: " + me.currentUser['role']['janitor']);
+		// 
+		// if( me.currentUser['role']['janitor']){
+		// 	console.log("The janitor is present");
+		// }else{
+		// 	console.log("The janitor is not present");
+		// }
+		// 
+		// if( me.currentUser['role']['janitor']['make_coffee']){
+		// 	console.log("he can make coffee");
+		// }else{
+		// 	console.log("The janitor can't make coffee");
+		// }
+		// 
 		me.getViewport().getLayout().setActiveItem( 1) ;
+		// hide all objects 
 	},
 	showLoginForm : function(){
-		console.log("The login form is shown");
+		// console.log("The login form is shown");
 		var me = this;
 		me.getViewport().getLayout().setActiveItem( 0 ) ;
+		
+		// unhide all objects based on authroization
 	}
 });

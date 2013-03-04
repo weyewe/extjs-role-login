@@ -11,8 +11,7 @@ Ext.define("AM.view.Viewport" , {
 			xtype : 'authform'
 		},
 		{
-			xtype : 'protected',
-			html : 'Protected Area'
+			xtype : 'protected'
 		}
 	]
 });

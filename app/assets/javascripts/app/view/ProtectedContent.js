@@ -5,7 +5,7 @@ Ext.define("AM.view.ProtectedContent", {
 	layout : {
 		align : 'center',
 		pack : 'center',
-		type : 'hbox'
+		type : 'vbox'
 	},
 	
 	items : [
@@ -13,7 +13,22 @@ Ext.define("AM.view.ProtectedContent", {
 			xtype : "button",
 			anchor : "100%",
 			itemId : 'logoutBtn',
-			text : 'Log out'
-		}
+			text : 'Log out',
+			hidden: false
+		},
+		{
+			xtype : "button",
+			anchor : "100%",
+			itemId : 'coffeeBtn',
+			text : 'Coffee',
+			hidden: true
+		},
+		{
+			xtype : "button",
+			anchor : "100%",
+			itemId : 'massageBtn',
+			text : 'Massage',
+			hidden: true
+		},
 	]
 });

@@ -1,14 +1,14 @@
 User.create :email => 'w.yunnal@gmail.com', :password => 'willy1234', :password_confirmation => 'willy1234'
 
 
-data_entry_role = {
-  :data_entry => {
-    :button_view => true  
+coffee_maker_role = {
+  :coffee_maker => {
+    :make_coffee => true  
   }
 }
  
 data_entry_role = Role.create!(
-:name        => ROLE_NAME[:data_entry],
+:name        => ROLE_NAME[:coffee_maker],
 :title       => 'Data Entry',
 :description => 'Role for data entry',
 :the_role    => data_entry_role.to_json
