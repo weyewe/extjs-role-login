@@ -40,7 +40,12 @@ Ext.define("AM.controller.Authorization", {
 		// 
 		// console.log("The type of currentUser['role']:" + typeof currentUser['role'] )
 		
-		coffeeBtn.setVisible(true ) ;
+		if( currentUser && currentUser['role'] && 
+					currentUser['role']['coffee_maker'] && 
+					currentUser['role']['coffee_maker']['make_coffee']){
+			coffeeBtn.setVisible(true ) ;
+		}
+		
 		
 		
 		// check authorization.. check the role
