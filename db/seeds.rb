@@ -7,11 +7,11 @@ coffee_maker_role = {
   }
 }
  
-data_entry_role = Role.create!(
+coffee_maker_role = Role.create!(
 :name        => ROLE_NAME[:coffee_maker],
 :title       => 'Data Entry',
 :description => 'Role for data entry',
-:the_role    => data_entry_role.to_json
+:the_role    => coffee_maker_role.to_json
 )
 
 janitor_role = {
@@ -28,11 +28,11 @@ janitor_role  = Role.create!(
 )
 
 
-data_entry = User.create :email => 'data_entry@gmail.com', :password => 'data1234', :password_confirmation => 'data1234'
+coffee_maker = User.create :email => 'coffee_maker@gmail.com', :password => 'coffee1234', :password_confirmation => 'coffee1234'
 janitor = User.create :email => 'janitor@gmail.com', :password => 'jani1234', :password_confirmation => 'jani1234'
 
-data_entry.role_id = data_entry_role.id
-data_entry.save 
+coffee_maker.role_id = coffee_maker_role.id
+coffee_maker.save 
 
 janitor.role_id = janitor_role.id
 janitor.save 
