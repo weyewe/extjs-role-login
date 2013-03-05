@@ -30,18 +30,14 @@ class Api::SessionsController < Api::BaseApiController
     # resource = User.find_for_database_authentication(:email => params[:user_login][:email])
     resource = User.find_by_authentication_token( params[:auth_token])
     resource.authentication_token = nil
-    resource.save
-    render :json=> {:success=>true}
-    # sign_out(resource_name)
+    # resource.save
     
-    # if resource.authentication_token.nil?
-    #   render :json => {:success => true }
-    # else
-    #   render :json => {:success => false }
-    # end
+    if resource and resource.save
+      render :json=> {:success=>true}
+    else
+      render :json=> {:success=>false}
+    end
     
-    # initial auth_token: h2sD5gN7nyBs7w1MxWMz
-    # new auth_token: eryfVgN3wL42cytkY3SL => different on save
   end
  
   protected
