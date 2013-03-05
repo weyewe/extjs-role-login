@@ -60,7 +60,31 @@ Ext.define("AM.controller.Authentication", {
 	},
 	
 	onCoffeeClick : function(btn){
-		console.log("Coffee is coming!!");
+		console.log("Client: Coffee is coming!!");
+		
+		Ext.Ajax.request({
+		    url: 'api/users/say_hi',
+		    method: 'POST',
+		    params: {
+		    },
+		    jsonData: {},
+		    success: function(result, request ) {
+						console.log("Client: make coffee success");
+		
+
+						
+						var responseText=  result.responseText; 
+						var data = Ext.decode(responseText ); 
+						
+						console.log( data['msg']);
+				 
+		    },
+		    failure: function(result, request ) {
+						console.log("Client: make coffee failed");
+		    }
+		});
+		
+		
 	},
 	
 	onMassageClick : function(btn){
@@ -89,12 +113,37 @@ Ext.define("AM.controller.Authentication", {
 	
 	onLogoutClick: function( button ){
 		var me = this;
-		me.currentUser  = null; 
-		// localStorage.setItem('currentUser',  null );
-		 localStorage.removeItem('currentUser');
+		
+		
+		
+		me.destroyAuthentication();
 		// this could go to the localStorage. much more awesome 
-		me.showLoginForm();
-		window.location.reload(); 
+		// me.showLoginForm();
+		// window.location.reload(); 
+	},
+	
+	destroyAuthentication: function(){
+		var me = this; 
+		me.getViewport().setLoading( true ) ;
+		Ext.Ajax.request({
+		    url: 'api/users/sign_out',
+		    method: 'DELETE',
+		    params: {
+		    },
+		    jsonData: {},
+		    success: function(result, request ) {
+					me.getViewport().setLoading( false ) ;
+					me.currentUser  = null; 
+					localStorage.removeItem('currentUser');
+					
+					me.showLoginForm();
+				
+		    },
+		    failure: function(result, request ) {
+						me.getViewport().setLoading( false ) ;
+						Ext.Msg.alert("Logout Error", "Can't Logout");
+		    }
+		});
 	},
 	
 	authenticateUser : function( data , fieldset ){
@@ -122,16 +171,7 @@ Ext.define("AM.controller.Authentication", {
 							'email'				: data['email'],
 							'role'				: Ext.decode( data['role'] ) 
 						};
-						// 
-						// console.log("The role:");
-						// console.log( currentUserObject['role']);
-						// 
-						// console.log("The typeof role: " + typeof currentUserObject['role']);
-						// 
-						// 
-						
-						
-						// set localStorage 
+				 
 						localStorage.setItem('currentUser', Ext.encode( currentUserObject ));
 						me.currentUser = currentUserObject;
 						me.showProtectedArea(); 

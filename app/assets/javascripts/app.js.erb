@@ -60,9 +60,12 @@ Ext.onReady(function(){
 	  }, this);
 	
 	
-	var currentUser = localStorage.getItem("currentUser");
-	console.log("The currentUser: " + currentUser );
+	var currentUser = Ext.decode( localStorage.getItem('currentUser'));
 	
-	var newCurrentUser = +localStorage.getItem("newCurrentUser");
-	console.log("The newCurrentUser: " + newCurrentUser );
+	if( currentUser !== null){
+		var auth_token_value = currentUser['auth_token'];
+		
+		Ext.Ajax.extraParams = { auth_token: auth_token_value };
+	}
+	
 });
